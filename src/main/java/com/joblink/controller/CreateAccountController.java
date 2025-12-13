@@ -1,7 +1,9 @@
 package com.joblink.controller;
 
-import java.io.IOException;
 import com.joblink.MainApp;
+import com.joblink.dao.UserDAO;
+import com.joblink.model.User;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -65,11 +67,31 @@ public class CreateAccountController {
             showAlert(Alert.AlertType.ERROR, "Missing Information", "Please fill in all required fields.");
             return;
         }
+        String accountType = accountTypeDisplay.equals("Job Seeker") ? "SEEKER" : "EMPLOYER";
         
+        // Check if email already exists
+        if (UserDAO.emailExists(email)) {
+            showAlert(Alert.AlertType.ERROR, "Email Already Registered", "This email address is already registered. Please use a different email or try logging in.");
+            return;
+        }
+        
+        try {
+            User user = UserDAO.createUser(name, email, password, accountType);
+            if (user != null) {
+                showAlert(Alert.AlertType.INFORMATION, "Account Created", "Your account has been created successfully! You can now log in.");
+                MainApp.showAuthPage();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Registration Failed", "Unable to create account. Please check the console for errors.");
+                System.err.println("Failed to create user - returned null");
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Registration Error", "An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void handleCancel() throws IOException {
+    private void handleCancel() {
         MainApp.showAuthPage();
     }
     

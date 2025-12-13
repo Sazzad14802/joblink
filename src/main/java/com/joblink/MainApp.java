@@ -8,10 +8,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.joblink.model.User;
 
 public class MainApp extends Application {
 
     private static Scene scene;
+    private static User currentUser;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -21,7 +23,7 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    static void setRoot(String fxml) {
         try {
             scene.setRoot(loadFXML(fxml));
         } catch (IOException e) {
@@ -38,24 +40,51 @@ public class MainApp extends Application {
         launch();
     }
 
-    public static void showHomePage() throws IOException {
+    public static void showHomePage() {
         setRoot("home");
     }
-    
-    public static void showAuthPage() throws IOException {
+
+    public static void showAuthPage() {
         setRoot("auth");
     }
-    
-    public static void showCreateAccountPage() throws IOException {
+
+    public static void showCreateAccountPage() {
         setRoot("createAccount");
     }
-    
-    public static void showLoginPage() throws IOException {
+
+    public static void showLoginPage() {
         setRoot("login");
     }
-    
-    public static void showDashboard() throws IOException {
+
+    public static void showDashboard() {
         setRoot("dashboard");
     }
 
+    public static void showAdminDashboard() {
+        setRoot("adminDashboard");
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void showPostJobPage() {
+
+    }
+
+    public static void showApplyJobPage() {
+
+    }
+
+    public static void showMyApplicationsPage() {
+
+    }
+
+    public static void showMyJobPostsPage() {
+        
+    }
 }

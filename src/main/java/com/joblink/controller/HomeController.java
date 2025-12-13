@@ -1,7 +1,5 @@
 package com.joblink.controller;
 
-import java.io.IOException;
-
 import com.joblink.MainApp;
 
 import javafx.fxml.FXML;
@@ -13,7 +11,7 @@ public class HomeController {
     private Button enterPortalButton;
     
     @FXML
-    private void handleEnterPortal() throws IOException {
+    private void handleEnterPortal() {
         MainApp.showAuthPage();
     }
 }

@@ -73,4 +73,8 @@ public class User {
     public boolean isSeeker() {
         return "SEEKER".equals(accountType);
     }
+    
+    public boolean isAdmin() {
+        return "ADMIN".equals(accountType);
+    }
 }

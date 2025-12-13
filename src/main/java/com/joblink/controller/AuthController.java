@@ -1,7 +1,5 @@
 package com.joblink.controller;
 
-import java.io.IOException;
-
 import com.joblink.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,17 +16,17 @@ public class AuthController {
     private Button backButton;
     
     @FXML
-    private void handleCreateAccount() throws IOException {
+    private void handleCreateAccount() {
         MainApp.showCreateAccountPage();
     }
     
     @FXML
-    private void handleLogin() throws IOException {
+    private void handleLogin() {
         MainApp.showLoginPage();
     }
     
     @FXML
-    private void handleBack() throws IOException {
+    private void handleBack() {
         MainApp.showHomePage();
     }
 }
