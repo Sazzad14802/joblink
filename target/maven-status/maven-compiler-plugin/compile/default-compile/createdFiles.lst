@@ -1,7 +1,0 @@
-com\joblink\controller\LoginController.class
-com\joblink\controller\AuthController.class
-module-info.class
-com\joblink\MainApp.class
-com\joblink\model\User.class
-com\joblink\controller\HomeController.class
-com\joblink\controller\CreateAccountController.class
