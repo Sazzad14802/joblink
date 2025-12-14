@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.joblink.controller.MyApplicationsController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="← Back" style="-fx-font-size: 12px;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+    
+    <Label text="My Applications" textAlignment="CENTER">
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
+    </Label>
+    
+    <HBox spacing="15.0" alignment="CENTER_LEFT">
+        <Label text="Filter:"/>
+        <ComboBox fx:id="filterComboBox" prefWidth="150.0"/>
+    </HBox>
+    
+    <!-- ListView replaces ScrollPane and VBox for dynamic content -->
+    <ListView fx:id="applicationsListView" VBox.vgrow="ALWAYS" 
+              style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 10;">
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </padding>
+    </ListView>
+</VBox>

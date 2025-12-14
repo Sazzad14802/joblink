@@ -9,11 +9,11 @@ import java.util.List;
 
 public class ApplicationDAO {
     
-    public Application createApplication(int jobId, int userId) {
+    public static Application createApplication(int jobId, int userId) {
         return createApplication(jobId, userId, null);
     }
     
-    public Application createApplication(int jobId, int userId, String experience) {
+    public static Application createApplication(int jobId, int userId, String experience) {
         String sql = "INSERT INTO applications (job_id, user_id, status, applied_date, experience) VALUES (?, ?, 'pending', datetime('now'), ?)";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,7 +48,7 @@ public class ApplicationDAO {
         return null;
     }
     
-    public boolean hasUserApplied(int jobId, int userId) {
+    public static boolean hasUserApplied(int jobId, int userId) {
         String sql = "SELECT COUNT(*) FROM applications WHERE job_id = ? AND user_id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class ApplicationDAO {
         return false;
     }
     
-    public int getApplicationCount(int jobId) {
+    public static int getApplicationCount(int jobId) {
         String sql = "SELECT COUNT(*) FROM applications WHERE job_id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -85,7 +85,7 @@ public class ApplicationDAO {
         return 0;
     }
     
-    public List<Application> getApplicationsByJob(int jobId) {
+    public static List<Application> getApplicationsByJob(int jobId) {
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT * FROM applications WHERE job_id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
@@ -111,7 +111,7 @@ public class ApplicationDAO {
         return applications;
     }
     
-    public List<Application> getApplicationsByUser(int userId) {
+    public static List<Application> getApplicationsByUser(int userId) {
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT * FROM applications WHERE user_id = ? ORDER BY applied_date DESC";
         try (Connection conn = DatabaseHelper.getConnection();
@@ -137,7 +137,7 @@ public class ApplicationDAO {
         return applications;
     }
     
-    public Application getApplicationByJobAndUser(int jobId, int userId) {
+    public static Application getApplicationByJobAndUser(int jobId, int userId) {
         String sql = "SELECT * FROM applications WHERE job_id = ? AND user_id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -163,7 +163,7 @@ public class ApplicationDAO {
         return null;
     }
     
-    public boolean updateApplicationStatus(int applicationId, String status) {
+    public static boolean updateApplicationStatus(int applicationId, String status) {
         String sql = "UPDATE applications SET status = ? WHERE id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -178,7 +178,7 @@ public class ApplicationDAO {
         return false;
     }
     
-    public boolean deleteApplicationsByJob(int jobId) {
+    public static boolean deleteApplicationsByJob(int jobId) {
         String sql = "DELETE FROM applications WHERE job_id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

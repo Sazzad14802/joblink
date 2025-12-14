@@ -21,8 +21,6 @@ public class MyJobPostsController {
     @FXML
     private Button backButton;
     
-    private ApplicationDAO applicationDAO = new ApplicationDAO();
-    
     @FXML
     public void initialize() {
         setupListView();
@@ -41,11 +39,11 @@ public class MyJobPostsController {
                     setStyle("-fx-background-color: transparent;");
                 } else {
                     try {
-                        int applicantCount = applicationDAO.getApplicationCount(job.getId());
+                        int applicantCount = ApplicationDAO.getApplicationCount(job.getId());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/joblink/jobCard.fxml"));
                         VBox card = loader.load();
                         JobCardController controller = loader.getController();
-                        controller.setData(job, applicantCount, 
+                        controller.setJobPostData(job, applicantCount, 
                             () -> MainApp.showApplicantListPage(job),
                             () -> handleEdit(job),
                             () -> handleDelete(job));
@@ -78,7 +76,7 @@ public class MyJobPostsController {
         
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                applicationDAO.deleteApplicationsByJob(job.getId());
+                ApplicationDAO.deleteApplicationsByJob(job.getId());
                 boolean deleted = JobDAO.deleteJob(job.getId());
                 if (deleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Job Deleted", "Job posting and all related applications have been deleted successfully.");

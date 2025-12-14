@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.joblink.controller.JobDetailsController">
+<VBox spacing="20.0">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+    </padding>
+    
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Back" />
+    </HBox>
+    
+    <VBox spacing="15.0">
+        <Label fx:id="titleLabel" text="Job Title">
+            <font>
+                <Font name="System Bold" size="28.0"/>
+            </font>
+        </Label>
+        
+        <HBox spacing="30.0" alignment="CENTER_LEFT">
+            <VBox spacing="5.0">
+                <Label text="Salary">
+                    <font>
+                        <Font size="12.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="salaryLabel" text="0.00">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Label>
+            </VBox>
+            
+            <VBox spacing="5.0">
+                <Label text="Location">
+                    <font>
+                        <Font size="12.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="locationLabel" text="Location">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+            </VBox>
+            
+            <VBox spacing="5.0">
+                <Label text="Total Applicants">
+                    <font>
+                        <Font size="12.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="applicantsLabel" text="0">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+            </VBox>
+        </HBox>
+        
+        <Separator/>
+        
+        <VBox spacing="10.0">
+            <Label text="Job Description">
+                <font>
+                    <Font name="System Bold" size="16.0"/>
+                </font>
+            </Label>
+            <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefRowCount="10" />
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox spacing="10.0">
+            <Label text="Posted By">
+                <font>
+                    <Font name="System Bold" size="16.0"/>
+                </font>
+            </Label>
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <Label fx:id="posterNameLabel" text="Employer Name">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label text="-" />
+                <Label fx:id="posterEmailLabel" text="email@example.com">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+        
+        <VBox spacing="10.0" fx:id="experienceBox">
+            <Label text="Your Experience (Required to Apply)">
+                <font>
+                    <Font name="System Bold" size="16.0"/>
+                </font>
+            </Label>
+            <Label text="Describe your relevant experience, skills, and qualifications:" style="-fx-text-fill: #666666;">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </Label>
+            <TextArea fx:id="experienceArea" wrapText="true" prefRowCount="6" promptText="Example: I have 3 years of experience in Java development, worked on Spring Boot applications..." />
+            <Button fx:id="submitButton" text="Submit Application" onAction="#handleSubmitApplication" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30 10 30;" />
+        </VBox>
+        
+        <Label fx:id="statusLabel" text="" visible="false">
+            <font>
+                <Font name="System Bold" size="16.0"/>
+            </font>
+        </Label>
+    </VBox>
+</VBox>
+</ScrollPane>

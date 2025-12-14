@@ -90,6 +90,33 @@ public class MainApp extends Application {
         }
     }
 
+    public static void showJobDetailsPage(Job job, int applicantCount) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/com/joblink/jobDetails.fxml"));
+            Parent root = loader.load();
+            
+            com.joblink.controller.JobDetailsController controller = loader.getController();
+            controller.setJob(job, applicantCount);
+            
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void showJobDetailsPage(Job job, int applicantCount, String previousPage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/com/joblink/jobDetails.fxml"));
+            Parent root = loader.load();
+            
+            com.joblink.controller.JobDetailsController controller = loader.getController();
+            controller.setJob(job, applicantCount, previousPage);
+            
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void showApplyJobPage() {
         setRoot("applyJob");
     }

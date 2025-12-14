@@ -116,7 +116,26 @@ public class JobDAO {
         }
         return false;
     }
-    
+    public static List<Job> getAvailableJobsForUser(int userId, double minSalary) {
+        List<Job> jobs = new ArrayList<>();
+        String sql = "SELECT j.* FROM jobs j WHERE j.salary >= ? AND j.posted_by != ? " +
+                     "AND NOT EXISTS (SELECT 1 FROM applications a WHERE a.job_id = j.id AND a.user_id = ?)";
+        try (Connection conn = DatabaseHelper.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, minSalary);
+            pstmt.setInt(2, userId);
+            pstmt.setInt(3, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    jobs.add(new Job(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
+                                     rs.getDouble("salary"), rs.getString("location"), rs.getInt("posted_by")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jobs;
+    }
     public static Job getJobById(int jobId) {
         String sql = "SELECT * FROM jobs WHERE id = ?";
         try (Connection conn = DatabaseHelper.getConnection();
