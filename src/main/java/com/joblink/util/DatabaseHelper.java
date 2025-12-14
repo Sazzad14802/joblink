@@ -28,17 +28,46 @@ public class DatabaseHelper {
 
     private static void initializeTables() {
         String createUsersTable = """
-                    CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name TEXT NOT NULL,
-                        email TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL,
-                        account_type TEXT NOT NULL DEFAULT 'SEEKER' CHECK(account_type IN ('SEEKER', 'EMPLOYER', 'ADMIN'))
-                    )
-                """;
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                account_type TEXT NOT NULL DEFAULT 'SEEKER' CHECK(account_type IN ('SEEKER', 'EMPLOYER', 'ADMIN'))
+            )
+        """;
+
+        String createJobsTable = """
+            CREATE TABLE IF NOT EXISTS jobs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                salary REAL NOT NULL,
+                location TEXT NOT NULL,
+                posted_by INTEGER NOT NULL,
+                FOREIGN KEY (posted_by) REFERENCES users(id) ON DELETE CASCADE
+            )
+        """;
+
+        String createApplicationsTable = """
+            CREATE TABLE IF NOT EXISTS applications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                job_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                status TEXT DEFAULT 'pending',
+                applied_date TEXT DEFAULT (datetime('now')),
+                experience TEXT,
+                FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                UNIQUE(job_id, user_id)
+            )
+        """;
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createUsersTable);
+            stmt.execute(createJobsTable);
+            stmt.execute(createApplicationsTable);
+         
             initializeAdminAccount(stmt);
 
         } catch (SQLException e) {
@@ -54,8 +83,7 @@ public class DatabaseHelper {
                 // Create predefined admin account
                 // Email: admin
                 // Password: admin
-                stmt.execute(
-                        "INSERT INTO users (name, email, password, account_type) VALUES ('Administrator', 'admin', 'admin', 'ADMIN')");
+                stmt.execute("INSERT INTO users (name, email, password, account_type) VALUES ('Administrator', 'admin', 'admin', 'ADMIN')");
                 System.out.println("Initialized predefined admin account (email: admin, password: admin)");
             }
             rs.close();

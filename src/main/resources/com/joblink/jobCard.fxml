@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.joblink.controller.JobCardController"
+      spacing="10.0" 
+      style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+    
+    <Label fx:id="titleLabel" style="-fx-text-fill: #333333; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+    
+    <Label fx:id="descLabel" wrapText="true" maxHeight="60.0"
+           style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+    
+    <HBox spacing="20.0" alignment="CENTER_LEFT">
+        <Label fx:id="salaryLabel" style="-fx-font-size: 14px; -fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
+        <Label fx:id="locationLabel" style="-fx-font-size: 14px; -fx-text-fill: #666666;"/>
+        <Label fx:id="applicantsLabel" style="-fx-font-size: 14px; -fx-text-fill: #2196F3; -fx-font-weight: bold;"/>
+    </HBox>
+    
+    <Separator/>
+    
+    <HBox spacing="10.0" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="viewApplicantsButton" text="View Applicants" 
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button fx:id="editButton" text="Edit" 
+                style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button fx:id="deleteButton" text="Delete" 
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </HBox>
+</VBox>

@@ -63,7 +63,7 @@ public class DashboardController {
     
     @FXML
     private void handlePostJob() {
-        MainApp.showPostJobPage();
+        MainApp.showJobFormPage();
     }
     
     @FXML
