@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.joblink.controller.ApplicantCardController"
+      spacing="15.0" 
+      style="-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+    
+    <HBox spacing="15.0" alignment="CENTER_LEFT">
+        <Label fx:id="nameLabel" style="-fx-text-fill: #333333; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="statusBadge" 
+               style="-fx-background-color: #FFF3E0; -fx-text-fill: #FF9800; -fx-padding: 5 12; -fx-background-radius: 15; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+    </HBox>
+    
+    <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+    
+    <Label fx:id="appliedLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+    
+    <VBox spacing="8.0" style="-fx-background-color: #f5f5f5; -fx-padding: 12; -fx-background-radius: 5;">
+        <Label text="Experience:" style="-fx-text-fill: #333333; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <Label fx:id="expText" wrapText="true" maxHeight="60.0"
+               style="-fx-text-fill: #555555; -fx-font-size: 13px;"/>
+        <Button fx:id="viewFullExpButton" text="View Full Experience" 
+                style="-fx-background-color: transparent; -fx-text-fill: #2196F3; -fx-font-size: 12px; -fx-underline: true; -fx-cursor: hand; -fx-padding: 5 0;"/>
+    </VBox>
+    
+    <Separator/>
+    
+    <HBox spacing="15.0" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="rejectButton" text="✗ Reject" 
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+        <Button fx:id="acceptButton" text="✓ Call for Interview" 
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+    </HBox>
+</VBox>

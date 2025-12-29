@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.joblink.controller.ApplicantListController;
 import com.joblink.model.Job;
 import com.joblink.model.User;
 
@@ -125,7 +126,17 @@ public class MainApp extends Application {
         setRoot("myApplications");
     }
     public static void showApplicantListPage(Job job) {
-        
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/com/joblink/applicantList.fxml"));
+            Parent root = loader.load();
+            
+            ApplicantListController controller = loader.getController();
+            controller.setJob(job);
+            
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void showMyJobPostsPage() {
         setRoot("myJobPosts");
