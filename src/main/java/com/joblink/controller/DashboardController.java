@@ -10,6 +10,8 @@ public class DashboardController {
     
     @FXML
     private Label welcomeLabel;
+    @FXML
+    private Label dashboardLabel;
     
     @FXML
     private Button postJobButton;
@@ -34,6 +36,7 @@ public class DashboardController {
             
             // Show/hide buttons based on account type
             if (currentUser.isEmployer()) {
+                dashboardLabel.setText("Employer Dashboard");
                 // Employer can only post jobs and view their posts
                 postJobButton.setVisible(true);
                 postJobButton.setManaged(true);
@@ -46,6 +49,7 @@ public class DashboardController {
                 myApplicationsButton.setVisible(false);
                 myApplicationsButton.setManaged(false);
             } else {
+                dashboardLabel.setText("Job Seeker Dashboard");
                 // Job Seeker can only apply for jobs and view applications
                 applyJobButton.setVisible(true);
                 applyJobButton.setManaged(true);
