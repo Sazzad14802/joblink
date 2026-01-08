@@ -6,7 +6,7 @@ public class Application {
     private int userId;
     private String status; // pending, accepted, rejected
     private String appliedDate;
-    private String experience;
+    private String cvFilePath;
 
     public Application() {
     }
@@ -26,13 +26,13 @@ public class Application {
         this.appliedDate = appliedDate;
     }
     
-    public Application(int id, int jobId, int userId, String status, String appliedDate, String experience) {
+    public Application(int id, int jobId, int userId, String status, String appliedDate, String cvFilePath) {
         this.id = id;
         this.jobId = jobId;
         this.userId = userId;
         this.status = status;
         this.appliedDate = appliedDate;
-        this.experience = experience;
+        this.cvFilePath = cvFilePath;
     }
 
     public int getId() {
@@ -75,11 +75,11 @@ public class Application {
         this.appliedDate = appliedDate;
     }
     
-    public String getExperience() {
-        return experience;
+    public String getCvFilePath() {
+        return cvFilePath;
     }
     
-    public void setExperience(String experience) {
-        this.experience = experience;
+    public void setCvFilePath(String cvFilePath) {
+        this.cvFilePath = cvFilePath;
     }
 }

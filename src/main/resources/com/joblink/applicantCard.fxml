@@ -17,7 +17,7 @@
     <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;" text="email" />
     
     <Label fx:id="appliedLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;" text="date" />
-     <Button fx:id="viewFullExpButton" style="-fx-background-color: transparent; -fx-text-fill: #2196F3; -fx-font-size: 12px; -fx-underline: true; -fx-cursor: hand; -fx-padding: 5 0;" text="View Full Experience" />
+     <Button fx:id="downloadCvButton" style="-fx-background-color: transparent; -fx-text-fill: #2196F3; -fx-font-size: 12px; -fx-underline: true; -fx-cursor: hand; -fx-padding: 5 0;" text="📄 Download CV" />
     
     <HBox fx:id="buttonContainer" alignment="CENTER_RIGHT" spacing="15.0">
         <Region HBox.hgrow="ALWAYS" />

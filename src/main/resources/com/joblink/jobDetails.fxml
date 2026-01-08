@@ -98,17 +98,20 @@
         </VBox>
         
         <VBox spacing="10.0" fx:id="experienceBox">
-            <Label text="Your Experience (Required to Apply)">
+            <Label text="Upload Your CV (Required to Apply)">
                 <font>
                     <Font name="System Bold" size="16.0"/>
                 </font>
             </Label>
-            <Label text="Describe your relevant experience, skills, and qualifications:" style="-fx-text-fill: #666666;">
+            <Label text="Please upload your CV in PDF format:" style="-fx-text-fill: #666666;">
                 <font>
                     <Font size="12.0"/>
                 </font>
             </Label>
-            <TextArea fx:id="experienceArea" wrapText="true" prefRowCount="6" promptText="Example: I have 3 years of experience in Java development, worked on Spring Boot applications..." />
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <Button fx:id="uploadButton" text="Choose PDF File" onAction="#handleChooseFile" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20 10 20;" />
+                <Label fx:id="fileNameLabel" text="No file selected" style="-fx-text-fill: #666666; -fx-font-size: 14px;" />
+            </HBox>
             <Button fx:id="submitButton" text="Submit Application" onAction="#handleSubmitApplication" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30 10 30;" />
         </VBox>
         

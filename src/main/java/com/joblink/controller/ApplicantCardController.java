@@ -8,12 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import java.awt.Desktop;
+import java.io.File;
+
 public class ApplicantCardController {
     @FXML private Label nameLabel;
     @FXML private Label statusBadge;
     @FXML private Label emailLabel;
     @FXML private Label appliedLabel;
-    @FXML private Button viewFullExpButton;
+    @FXML private Button downloadCvButton;
     @FXML private Button rejectButton;
     @FXML private Button acceptButton;
     @FXML private HBox buttonContainer;
@@ -27,9 +30,14 @@ public class ApplicantCardController {
         emailLabel.setText("📧 " + user.getEmail());
         appliedLabel.setText("📅 Applied: " + application.getAppliedDate());
         
-        String exp = application.getExperience();
-        if (exp == null || exp.trim().isEmpty()) {
-            exp = "No experience provided";
+        String cvPath = application.getCvFilePath();
+        if (cvPath == null || cvPath.trim().isEmpty()) {
+            downloadCvButton.setDisable(true);
+            downloadCvButton.setText("📄 No CV Uploaded");
+        } else {
+            downloadCvButton.setDisable(false);
+            downloadCvButton.setText("📄 Download CV");
+            downloadCvButton.setOnAction(e -> downloadCV(cvPath, user.getName()));
         }
         
         String status = application.getStatus();
@@ -52,15 +60,37 @@ public class ApplicantCardController {
                 statusBadge.setStyle("-fx-text-fill: #f44336;");
             }
         }
-        
-        viewFullExpButton.setOnAction(e -> showFullExperience(user.getName()));
     }
     
-    private void showFullExperience(String name) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Full Experience");
-        alert.setHeaderText(name);
-        alert.setContentText(application.getExperience());
-        alert.showAndWait();
+    private void downloadCV(String cvFilePath, String applicantName) {
+        File cvFile = new File(cvFilePath);
+        
+        if (!cvFile.exists()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("CV Not Found");
+            alert.setHeaderText("File Missing");
+            alert.setContentText("The CV file could not be found. It may have been moved or deleted.");
+            alert.showAndWait();
+            return;
+        }
+        
+        try {
+            // Open the PDF file with the default system application
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(cvFile);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Cannot Open File");
+                alert.setHeaderText("Desktop Not Supported");
+                alert.setContentText("Unable to open the CV file on this system.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Opening CV");
+            alert.setHeaderText("Failed to Open File");
+            alert.setContentText("An error occurred while trying to open the CV: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }

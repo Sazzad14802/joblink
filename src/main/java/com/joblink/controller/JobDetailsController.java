@@ -9,6 +9,16 @@ import com.joblink.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class JobDetailsController {
     
@@ -37,7 +47,10 @@ public class JobDetailsController {
     private VBox experienceBox;
     
     @FXML
-    private TextArea experienceArea;
+    private Button uploadButton;
+    
+    @FXML
+    private Label fileNameLabel;
     
     @FXML
     private Button submitButton;
@@ -50,6 +63,7 @@ public class JobDetailsController {
     
     private Job job;
     private String previousPage = "applyJob"; // default to apply job page
+    private File selectedCvFile = null;
     
     public void setJob(Job job, int applicantCount) {
         this.job = job;
@@ -126,21 +140,73 @@ public class JobDetailsController {
     }
     
     @FXML
-    private void handleSubmitApplication() {
-        String experience = experienceArea.getText();
+    private void handleChooseFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Your CV (PDF)");
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
         
-        if (experience == null || experience.trim().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Experience Required", "Please describe your experience to apply for this job.");
+        File file = fileChooser.showOpenDialog(uploadButton.getScene().getWindow());
+        if (file != null) {
+            selectedCvFile = file;
+            fileNameLabel.setText(file.getName());
+            fileNameLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-size: 14px; -fx-font-weight: bold;");
+        }
+    }
+    
+    @FXML
+    private void handleSubmitApplication() {
+        if (selectedCvFile == null) {
+            showAlert(Alert.AlertType.WARNING, "CV Required", "Please upload your CV (PDF format) to apply for this job.");
             return;
         }
         
-        Application application = ApplicationDAO.createApplication(job.getId(), MainApp.getCurrentUser().getId(), experience.trim());
-        if (application != null) {
-            showAlert(Alert.AlertType.INFORMATION, "Application Submitted", "Your application has been submitted successfully!");
-            experienceArea.clear();
-            updateUI();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Application Failed", "Failed to submit application. Please try again.");
+        try {
+            // Copy CV to secure location
+            String cvFilePath = copyCvToSecureLocation(selectedCvFile);
+            
+            if (cvFilePath == null) {
+                showAlert(Alert.AlertType.ERROR, "File Copy Failed", "Failed to save your CV. Please try again.");
+                return;
+            }
+            
+            Application application = ApplicationDAO.createApplication(job.getId(), MainApp.getCurrentUser().getId(), cvFilePath);
+            if (application != null) {
+                showAlert(Alert.AlertType.INFORMATION, "Application Submitted", "Your application with CV has been submitted successfully!");
+                selectedCvFile = null;
+                fileNameLabel.setText("No file selected");
+                fileNameLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 14px;");
+                updateUI();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Application Failed", "Failed to submit application. Please try again.");
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred: " + e.getMessage());
+        }
+    }
+    
+    private String copyCvToSecureLocation(File sourceFile) {
+        try {
+            // Create cv_uploads directory structure: cv_uploads/userId/
+            int userId = MainApp.getCurrentUser().getId();
+            Path uploadDir = Paths.get("cv_uploads", String.valueOf(userId));
+            Files.createDirectories(uploadDir);
+            
+            // Generate unique filename: jobId_timestamp.pdf
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String fileName = String.format("job%d_%s.pdf", job.getId(), timestamp);
+            Path destinationPath = uploadDir.resolve(fileName);
+            
+            // Copy file to secure location
+            Files.copy(sourceFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            
+            // Return relative path for storage
+            return destinationPath.toString();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
     

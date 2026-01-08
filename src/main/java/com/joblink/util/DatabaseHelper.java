@@ -56,7 +56,7 @@ public class DatabaseHelper {
                 user_id INTEGER NOT NULL,
                 status TEXT DEFAULT 'pending',
                 applied_date TEXT DEFAULT (datetime('now')),
-                experience TEXT,
+                cv_file_path TEXT,
                 FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 UNIQUE(job_id, user_id)

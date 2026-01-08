@@ -13,14 +13,14 @@ public class ApplicationDAO {
         return createApplication(jobId, userId, null);
     }
     
-    public static Application createApplication(int jobId, int userId, String experience) {
-        String sql = "INSERT INTO applications (job_id, user_id, status, applied_date, experience) VALUES (?, ?, 'pending', datetime('now'), ?)";
+    public static Application createApplication(int jobId, int userId, String cvFilePath) {
+        String sql = "INSERT INTO applications (job_id, user_id, status, applied_date, cv_file_path) VALUES (?, ?, 'pending', datetime('now'), ?)";
         try (Connection conn = DatabaseHelper.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, jobId);
             pstmt.setInt(2, userId);
-            pstmt.setString(3, experience);
+            pstmt.setString(3, cvFilePath);
             
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
@@ -35,7 +35,7 @@ public class ApplicationDAO {
                             dateStmt.setInt(1, id);
                             try (ResultSet dateRs = dateStmt.executeQuery()) {
                                 if (dateRs.next()) {
-                                    return new Application(id, jobId, userId, "pending", dateRs.getString("applied_date"), experience);
+                                    return new Application(id, jobId, userId, "pending", dateRs.getString("applied_date"), cvFilePath);
                                 }
                             }
                         }
@@ -101,7 +101,7 @@ public class ApplicationDAO {
                         rs.getInt("user_id"),
                         rs.getString("status"),
                         rs.getString("applied_date"),
-                        rs.getString("experience")
+                        rs.getString("cv_file_path")
                     ));
                 }
             }
@@ -127,7 +127,7 @@ public class ApplicationDAO {
                         rs.getInt("user_id"),
                         rs.getString("status"),
                         rs.getString("applied_date"),
-                        rs.getString("experience")
+                        rs.getString("cv_file_path")
                     ));
                 }
             }
@@ -153,7 +153,7 @@ public class ApplicationDAO {
                         rs.getInt("user_id"),
                         rs.getString("status"),
                         rs.getString("applied_date"),
-                        rs.getString("experience")
+                        rs.getString("cv_file_path")
                     );
                 }
             }
