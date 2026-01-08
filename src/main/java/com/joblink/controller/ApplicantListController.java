@@ -40,19 +40,16 @@ public class ApplicantListController {
         applicantsContainer.getChildren().clear();
         
         List<Application> applications = ApplicationDAO.getApplicationsByJob(currentJob.getId());
-        List<Application> pendingApps = applications.stream()
-            .filter(app -> "pending".equals(app.getStatus()))
-            .toList();
         
-        if (pendingApps.isEmpty()) {
-            Label emptyLabel = new Label("No pending applications.");
+        if (applications.isEmpty()) {
+            Label emptyLabel = new Label("No applications yet.");
             emptyLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
             VBox emptyBox = new VBox(emptyLabel);
             emptyBox.setAlignment(Pos.CENTER);
             emptyBox.setPadding(new Insets(50));
             applicantsContainer.getChildren().add(emptyBox);
         } else {
-            for (Application app : pendingApps) {
+            for (Application app : applications) {
                 User user = UserDAO.getUserById(app.getUserId());
                 if (user != null) {
                     try {

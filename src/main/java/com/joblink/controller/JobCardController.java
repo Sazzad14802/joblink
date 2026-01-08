@@ -1,14 +1,17 @@
 package com.joblink.controller;
 
+import com.joblink.dao.UserDAO;
 import com.joblink.model.Application;
 import com.joblink.model.Job;
+import com.joblink.model.User;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class JobCardController {
     @FXML private Label titleLabel;
-    @FXML private Label descLabel;
+    @FXML private Label companyLabel;
     @FXML private Label salaryLabel;
     @FXML private Label locationLabel;
     @FXML private Label applicantsLabel;
@@ -84,7 +87,8 @@ public class JobCardController {
     
     private void setBasicJobData(Job job, int applicantCount) {
         titleLabel.setText(job.getTitle());
-        descLabel.setText(job.getDescription());
+        User poster = UserDAO.getUserById(job.getPostedBy());
+        companyLabel.setText(poster.getName());
         salaryLabel.setText("💰 $" + job.getSalary());
         locationLabel.setText("📍 " + job.getLocation());
         if (applicantCount >= 0) {
