@@ -40,10 +40,11 @@ public class MyJobPostsController {
                 } else {
                     try {
                         int applicantCount = ApplicationDAO.getApplicationCount(job.getId());
+                        int pendingCount = ApplicationDAO.getPendingApplicationCount(job.getId());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/joblink/jobCard.fxml"));
                         VBox card = loader.load();
                         JobCardController controller = loader.getController();
-                        controller.setJobPostData(job, applicantCount, 
+                        controller.setJobPostData(job, applicantCount, pendingCount,
                             () -> MainApp.showApplicantListPage(job),
                             () -> handleEdit(job),
                             () -> handleDelete(job));

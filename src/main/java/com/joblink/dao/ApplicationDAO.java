@@ -85,6 +85,24 @@ public class ApplicationDAO {
         return 0;
     }
     
+    public static int getPendingApplicationCount(int jobId) {
+        String sql = "SELECT COUNT(*) FROM applications WHERE job_id = ? AND status = 'pending'";
+        try (Connection conn = DatabaseHelper.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, jobId);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
     public static List<Application> getApplicationsByJob(int jobId) {
         List<Application> applications = new ArrayList<>();
         String sql = "SELECT * FROM applications WHERE job_id = ?";

@@ -38,8 +38,8 @@ public class JobCardController {
     }
     
     // For MyJobPosts - show all management buttons
-    public void setJobPostData(Job job, int applicantCount, Runnable onViewApplicants, Runnable onEdit, Runnable onDelete) {
-        setBasicJobData(job, applicantCount);
+    public void setJobPostData(Job job, int applicantCount, int pendingCount, Runnable onViewApplicants, Runnable onEdit, Runnable onDelete) {
+        setBasicJobData(job, applicantCount, pendingCount);
         viewApplicantsButton.setVisible(true);
         viewApplicantsButton.setManaged(true);
         editButton.setVisible(true);
@@ -86,13 +86,21 @@ public class JobCardController {
     }
     
     private void setBasicJobData(Job job, int applicantCount) {
+        setBasicJobData(job, applicantCount, 0);
+    }
+    
+    private void setBasicJobData(Job job, int applicantCount, int pendingCount) {
         titleLabel.setText(job.getTitle());
         User poster = UserDAO.getUserById(job.getPostedBy());
         companyLabel.setText(poster.getName());
         salaryLabel.setText("💰 $" + job.getSalary());
         locationLabel.setText("📍 " + job.getLocation());
         if (applicantCount >= 0) {
-            applicantsLabel.setText("👥 " + applicantCount + " Applicants");
+            String applicantsText = "👥 " + applicantCount + " Applicants";
+            if (pendingCount > 0) {
+                applicantsText += " (" + pendingCount + " pending)";
+            }
+            applicantsLabel.setText(applicantsText);
             applicantsLabel.setVisible(true);
             applicantsLabel.setManaged(true);
         }
