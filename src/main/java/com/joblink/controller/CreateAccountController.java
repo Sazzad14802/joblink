@@ -7,7 +7,14 @@ import com.joblink.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.regex.Pattern;
+
 public class CreateAccountController {
+    
+    // Email regex pattern
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+    );
     
     @FXML
     private Label nameLabel;
@@ -20,6 +27,18 @@ public class CreateAccountController {
     
     @FXML
     private PasswordField passwordField;
+    
+    @FXML
+    private Label lengthRequirementLabel;
+    
+    @FXML
+    private Label uppercaseRequirementLabel;
+        
+    @FXML
+    private Label numberRequirementLabel;
+    
+    @FXML
+    private Label symbolRequirementLabel;
     
     @FXML
     private ComboBox<String> accountTypeComboBox;
@@ -44,6 +63,11 @@ public class CreateAccountController {
                 nameLabel.setText("Name:");
             }
         });
+        
+        // Add password validation listener
+        passwordField.textProperty().addListener((obs, oldVal, newVal) -> {
+            validatePassword(newVal);
+        });
     }
     
     @FXML
@@ -67,6 +91,20 @@ public class CreateAccountController {
             showAlert(Alert.AlertType.ERROR, "Missing Information", "Please fill in all required fields.");
             return;
         }
+        
+        // Validate email format
+        if (!isValidEmail(email)) {
+            showAlert(Alert.AlertType.ERROR, "Invalid Email", "Please enter a valid email address.");
+            return;
+        }
+        
+        // Validate password strength
+        String passwordError = getPasswordStrengthError(password);
+        if (passwordError != null) {
+            showAlert(Alert.AlertType.ERROR, "Weak Password", passwordError);
+            return;
+        }
+        
         String accountType = accountTypeDisplay.equals("Job Seeker") ? "SEEKER" : "EMPLOYER";
         
         // Check if email already exists
@@ -93,6 +131,67 @@ public class CreateAccountController {
     @FXML
     private void handleCancel() {
         MainApp.showAuthPage();
+    }
+    
+    private void validatePassword(String password) {
+        if (password.isEmpty()) {
+            // Reset all to gray with X marks
+            updateRequirementLabel(lengthRequirementLabel, false, "Min 6 chars");
+            updateRequirementLabel(uppercaseRequirementLabel, false, "Uppercase");
+            updateRequirementLabel(numberRequirementLabel, false, "Number");
+            updateRequirementLabel(symbolRequirementLabel, false, "Symbol");
+            passwordField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px;");
+            return;
+        }
+        
+        boolean hasMinLength = password.length() >= 6;
+        boolean hasUpperCase = password.matches(".*[A-Z].*");
+        boolean hasNumber = password.matches(".*[0-9].*");
+        boolean hasSymbol = password.matches(".*[!@#$%^&*(),.?\":{}|<>].*");
+        
+        // Update each requirement label with appropriate color
+        updateRequirementLabel(lengthRequirementLabel, hasMinLength, "Min 6 chars");
+        updateRequirementLabel(uppercaseRequirementLabel, hasUpperCase, "Uppercase");
+        updateRequirementLabel(numberRequirementLabel, hasNumber, "Number");
+        updateRequirementLabel(symbolRequirementLabel, hasSymbol, "Symbol");
+        
+        // Update border based on overall strength
+        boolean allMet = hasMinLength && hasUpperCase && hasNumber && hasSymbol;
+        if (allMet) {
+            passwordField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #38a169; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px;");
+        } else {
+            passwordField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e53e3e; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px;");
+        }
+    }
+    
+    private void updateRequirementLabel(Label label, boolean isMet, String requirement) {
+        if (isMet) {
+            label.setText("✓ " + requirement);
+            label.setStyle("-fx-text-fill: #38a169; -fx-font-size: 11px;");
+        } else {
+            label.setText("✗ " + requirement);
+            label.setStyle("-fx-text-fill: #e53e3e; -fx-font-size: 11px;");
+        }
+    }
+    
+    private boolean isValidEmail(String email) {
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
+    }
+    
+    private String getPasswordStrengthError(String password) {
+        if (password.length() < 6) {
+            return "Password must be at least 6 characters long.";
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return "Password must contain at least one uppercase letter.";
+        }
+        if (!password.matches(".*[0-9].*")) {
+            return "Password must contain at least one number.";
+        }
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            return "Password must contain at least one symbol (!@#$%^&*(),.?\":{}|<>).";
+        }
+        return null;
     }
     
     

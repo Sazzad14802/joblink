@@ -53,9 +53,13 @@
                     <VBox spacing="8">
                         <Label style="-fx-text-fill: #2d3748; -fx-font-size: 14px; -fx-font-weight: bold;" text="Password:" />
                         <PasswordField fx:id="passwordField" promptText="Create a password" style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px;" />
+                        <VBox spacing="3">
+                            <Label fx:id="lengthRequirementLabel" style="-fx-text-fill: #718096; -fx-font-size: 11px;" text="✗ Min 6 chars" />
+                            <Label fx:id="uppercaseRequirementLabel" style="-fx-text-fill: #718096; -fx-font-size: 11px;" text="✗ Uppercase" />
+                            <Label fx:id="numberRequirementLabel" style="-fx-text-fill: #718096; -fx-font-size: 11px;" text="✗ Number" />
+                            <Label fx:id="symbolRequirementLabel" style="-fx-text-fill: #718096; -fx-font-size: 11px;" text="✗ Symbol" />
+                        </VBox>
                     </VBox>
-                    
-                    <Region prefHeight="10" />
 
                     <VBox spacing="12">
                         <Button fx:id="submitButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#handleSubmit" onMouseEntered="#handleSubmitHover" onMouseExited="#handleSubmitExit" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 14; -fx-background-radius: 8; -fx-cursor: hand;" text="Create Account" />

@@ -21,10 +21,10 @@ public class ApplicantCardController {
     @FXML private Button acceptButton;
     @FXML private HBox buttonContainer;
     
-    private Application application;
+    //private Application application;
     
     public void setData(Application application, User user, Runnable onAccept, Runnable onReject) {
-        this.application = application;
+        //this.application = application;
         
         nameLabel.setText(user.getName());
         emailLabel.setText("📧 " + user.getEmail());
